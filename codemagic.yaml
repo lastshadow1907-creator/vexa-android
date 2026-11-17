@@ -1,0 +1,24 @@
+workflows:
+  vexa-android-apk:
+    name: Vexa Android APK (test)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      java: 17
+    scripts:
+      - name: Android SDK ayarla
+        script: |
+          set -e
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+      - name: Vexa debug APK olustur
+        script: |
+          set -e
+          if command -v gradle >/dev/null 2>&1; then
+            gradle :app:assembleDebug --no-daemon
+          else
+            curl -fL --retry 3 https://services.gradle.org/distributions/gradle-8.10.2-bin.zip -o /tmp/vexa-gradle.zip
+            unzip -q /tmp/vexa-gradle.zip -d /tmp
+            /tmp/gradle-8.10.2/bin/gradle :app:assembleDebug --no-daemon
+          fi
+    artifacts:
+      - app/build/outputs/apk/debug/app-debug.apk
