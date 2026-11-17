@@ -8,4 +8,8 @@ android {
     kotlinOptions { jvmTarget = "17" }
 }
 
-dependencies { implementation("androidx.activity:activity-ktx:1.9.3") }
+dependencies {
+    implementation("androidx.activity:activity-ktx:1.9.3")
+    // Google Mobile Ads SDK: AdMob test reklamlarini gostermek icin.
+    implementation("com.google.android.gms:play-services-ads:25.5.0")
+}
